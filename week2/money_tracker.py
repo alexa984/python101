@@ -1,18 +1,13 @@
 def list_user_data(all_user_data):
-    result = []
-    for date in all_user_data:
-        curr_data = all_user_data[date]
-        expense_list = curr_data['expense']
-        income_list = curr_data['income']
-        for item in expense_list:
-            expense = (item[0], item[1], 'New Expense')
-            result.append(expense)
+    info = ''
+    for date, data in all_user_data.items():
+        info += '=== {} ===\n'.format(date)
+        for inc in data['income']:
+            info+='{}, {}, New Income\n'.format(inc[0], inc[1])
+        for exp in data['expense']:
+            info+='{}, {}, New Expense\n'.format(inc[0], inc[1])
 
-        for item in income_list:
-            income = (item[0], item[1].strip(), 'New Income')
-            result.append(income)
-
-    return result
+    print(info)
 
 
 def show_user_incomes(all_user_data):
@@ -25,7 +20,7 @@ def show_user_incomes(all_user_data):
             income = (item[0], item[1].strip(), 'New Income')
             result.append(income)
 
-    return result
+    print(result)
 
 
 def show_user_savings(all_user_data):
@@ -39,7 +34,7 @@ def show_user_savings(all_user_data):
             if item[1] == 'Savings':
                 result.append(income)
 
-    return result
+    print(result)
 
 
 def show_user_deposits(all_user_data):
@@ -53,7 +48,7 @@ def show_user_deposits(all_user_data):
             if item[1] == 'Deposit':
                 result.append(income)
 
-    return result
+    print(result)
 
 
 def show_user_expenses(all_user_data):
@@ -65,7 +60,7 @@ def show_user_expenses(all_user_data):
             expense = (item[0], item[1].strip(), 'New Expense')
             result.append(expense)
 
-    return result
+    print(result)
 
 def list_user_expenses_ordered_by_categories(all_user_data):
     result = []
@@ -77,7 +72,7 @@ def list_user_expenses_ordered_by_categories(all_user_data):
             expense = (item[0], item[1].strip())
             result.append(expense)
 
-    return sorted(result, key=lambda x: x[1])
+    print(sorted(result, key=lambda x: x[1]))
 
 
 
@@ -99,7 +94,7 @@ def show_user_data_per_date(date, all_user_data):
             income = (item[0], item[1].strip(), 'New Income')
             result.append(income)
 
-    return result
+            print(result)
 
 
 def list_income_categories(all_user_data):
@@ -111,7 +106,7 @@ def list_income_categories(all_user_data):
         for item in income_list:
             result.append(item[1].strip())
 
-    return result
+    print(result)
 
 
 def list_expense_categories(all_user_data):
@@ -127,11 +122,24 @@ def list_expense_categories(all_user_data):
 
 
 def add_income(income_category, money, date, all_user_data):
-    pass
-
+    to_add = (money, income_category)
+    try:
+        all_user_data[date]['income'].append(to_add)
+    except KeyError:
+        all_user_data[date]={'expense': [], 'income':[]}
+        all_user_data[date]['income'].append(to_add)
+    finally:
+        parse_from_dict_to_file(all_user_data)
 
 def add_expense(expense_category, money, date, all_user_data):
-    pass
+    to_add = (money, expense_category)
+    try:
+        all_user_data[date]['income'].append(to_add)
+    except KeyError:
+        all_user_data[date]={'expense': [], 'income':[]}
+        all_user_data[date]['expense'].append(to_add)
+    finally:
+        parse_from_dict_to_file(all_user_data)
 
 
 def parse_from_file_to_dict(filename):
@@ -164,7 +172,16 @@ def parse_from_file_to_dict(filename):
 
 
 def parse_from_dict_to_file(all_user_data):
-    pass
+    info = ''
+    for date, data in all_user_data.items():
+        info += '=== {} ===\n'.format(date)
+        for inc in data['income']:
+            info+='{}, {}, New Income\n'.format(inc[0], inc[1])
+        for exp in data['expense']:
+            info+='{}, {}, New Expense\n'.format(inc[0], inc[1])
+    f = open("money_tracker.txt", "w")
+    f.write(info)
+    f.close()
 
 
 def print_menu():
@@ -185,7 +202,6 @@ def main():
             print('Invalid command')
         else:
             all_user_data = parse_from_file_to_dict('money_tracker.txt')
-            # print(all_user_data.items())
             if command == 1:
                 list_user_data(all_user_data)
             elif command == 2:
@@ -197,7 +213,12 @@ def main():
                 category = input('Enter category: ')
                 money = float(input('Enter money: '))
                 date = input('Enter date: ')
-                add_income(category, money, date, all_user_data)
+                all_user_data = add_income(category, money, date, all_user_data)
+            elif command == 5:
+                category = input('Enter category: ')
+                money = float(input('Enter money: '))
+                date = input('Enter date: ')
+                all_user_data = add_income(category, money, date, all_user_data)
 
         print_menu()
         command = int(input())
