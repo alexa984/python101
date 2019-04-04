@@ -108,26 +108,18 @@ class Playlist:
 
     @staticmethod
     def load(path):
-        pl_list = Playlist()
-        #do stuff like take name of playlist, song_list etc and load it into the Playlist object
-        #when loading set curr_playing_song_index to 0
-        return pl_list
+        with open(path, "r") as read_file:
+            playlist_info = json.load(read_file)
+            pl = Playlist(playlist_info['name'])
+            pl.song_list=[]
+            for song in playlist_info['song_list']:
+                new_song = Song.Song(title=song['title'], artist=song['artist'], album=song['album'], length=song['length'])
+                pl.song_list.append(new_song)
 
+            pl.repeat = playlist_info['repeat']
+            pl.Shuffle = playlist_info['shuffle']
+            pl.number_songs = playlist_info['number_songs']
 
+        return pl
 
-pl = Playlist('friday')
-s1 = Song.Song(title="Odin", artist="Manowar", album="The Sons of Odin", length="3:44")
-s2 = Song.Song(title="Ohne Dich", artist="Rammstein", album="Reise, Reise", length="1:3:44")
-s3 = Song.Song(title="Ich Will", artist="Rammstein", album="Mutter", length="4:05")
-s4 = Song.Song(title="Ich Tu Dir Weh", artist="Rammstein", album="Liebe ist für alle da", length="3:58")
-s5 = Song.Song(title="super palav", artist="papi hans", album="MAximum stupidity", length="3:44")
-s6 = Song.Song(title="Apologize", artist="One Republic", album="Dreaming Out Loud", length="3:11")
-
-pl.add_songs([s1, s2, s3, s4, s5, s6])
-s7 = Song.Song(title='spasenie', artist = 'btr', album = 'idk brat', length='2:58')
-pl.add_song(s7)
-#pl.artists()
-print(pl.total_length())
-pl.pprint_playlist()
-pl.save()
 #TODO: create UI(menu :D)
