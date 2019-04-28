@@ -27,11 +27,8 @@ def deep_find_all_bfs(d, key):
                     iters.insert(0, item)
             else:
                 for el in it[1]:
-                    try:
-                        for item in list(el.items()):
-                            iters.insert(0, item)
-                    except:
-                        continue
+                    for item in list(el.items()):
+                        iters.insert(0, item)
 
     return findings
 
