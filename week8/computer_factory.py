@@ -33,8 +33,10 @@ class ComputerFactory():
     def create_computer(self, type_computer):
         return globals()[type_computer]()
 
-computer = ComputerFactory()
-my_computers = ['Laptop', 'Laptop', 'PC', 'Server', 'Laptop']
-for cp in my_computers:
-    this_computer = computer.create_computer(cp)
-    print(this_computer)
+#test
+if __name__ == __main__:
+    computer = ComputerFactory()
+    my_computers = ['Laptop', 'Laptop', 'PC', 'Server', 'Laptop']
+    for cp in my_computers:
+        this_computer = computer.create_computer(cp)
+        print(this_computer)
