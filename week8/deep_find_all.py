@@ -32,12 +32,12 @@ def deep_find_all_bfs(d, key):
 
     return findings
 
-if __name__=='__main__':
-    #test
-    sample_data = {1: {'pet': 'dog', 'food': 'pizza'},
-                    3: 'summer',
-                    4: [{'mother': 'mom', 'father': 'dad'}, {'friend': 'mariika' }, {'pet': 'dog', 'food': 'burger'}]
-                    }   
+# if __name__=='__main__':
+#     #test
+#     sample_data = {1: {'pet': 'dog', 'food': 'pizza'},
+#                     3: 'summer',
+#                     4: [{'mother': 'mom', 'father': 'dad'}, {'friend': 'mariika' }, {'pet': 'dog', 'food': 'burger'}]
+#                     }   
 
-    print(deep_find_all_bfs(sample_data, 'food'))
-    print(deep_find_all_dfs(sample_data, 'food'))
+#     print(deep_find_all_bfs(sample_data, 'food'))
+#     print(deep_find_all_dfs(sample_data, 'food'))
