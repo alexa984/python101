@@ -1,27 +1,3 @@
-def chain(iterable_one, iterable_two):
-    for i in iterable_one:
-        yield i
-    for j in iterable_two:
-        yield j
-
-def compress(iterable, mask):
-    for i in range (len(mask)):
-         if mask[i]:
-            yield iterable[i]
-
-
-def cycle(iterable):
-    index = 0
-    while True:
-        if index == len(iterable):
-            index = 0
-        yield iterable[index]
-        index+=1
-
-# endless = cycle(range(0,10))
-# for item in endless:
-#     print(item)
-
 import os
 import keyboard
 
@@ -51,10 +27,6 @@ my_reader = reader('/home/alexandra/Documents/python101/week6/book/')
 for chapter in my_reader:
     print(chapter)
     print('=======')
-
-
-def book_generator():
-    pass
 
 
 
