@@ -1,7 +1,7 @@
 #creates playlists and songs objects from mp3-s
-from os import listdir, path
 import mutagen
 import json
+from os import listdir, path
 
 class MusicCrawler:
     def __init__(self, path):

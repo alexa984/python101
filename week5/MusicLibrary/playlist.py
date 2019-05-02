@@ -1,8 +1,8 @@
-import Song
+import json
 import numpy as numpy
 import matplotlib.pyplot as plt
-import json
 from random import shuffle
+from song import Song
 class Playlist:
     def __init__(self, name, repeat=False, shuffle=False):
         #everything in song_list should be of class Song
@@ -23,11 +23,10 @@ class Playlist:
         self.song_list[index] = value
 
     def add_song(self, song):
-        if type(song)!=Song.Song:
-            raise TypeError()
+        if type(song)!=Song:
+            raise TypeError('Invalid type of song')
         if self.number_songs == 0:
             self.curr_playing_index = 0
-            self.already_played.append(0)
 
         self.song_list.append(song)
         self.number_songs+=1
@@ -38,7 +37,7 @@ class Playlist:
 
     def add_songs(self, songs):
         for song in songs:
-            if isinstance(song, Song.Song):
+            if isinstance(song, Song):
                 self.song_list.append(song)
                 self.number_songs+=1
 
@@ -113,7 +112,7 @@ class Playlist:
             pl = Playlist(playlist_info['name'])
             pl.song_list=[]
             for song in playlist_info['song_list']:
-                new_song = Song.Song(title=song['title'], artist=song['artist'], album=song['album'], length=song['length'])
+                new_song = Song(title=song['title'], artist=song['artist'], album=song['album'], length=song['length'])
                 pl.song_list.append(new_song)
 
             pl.repeat = playlist_info['repeat']
@@ -122,4 +121,4 @@ class Playlist:
 
         return pl
 
-#TODO: create UI(menu :D)
+        
