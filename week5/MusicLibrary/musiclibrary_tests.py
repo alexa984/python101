@@ -98,6 +98,14 @@ class TestMusicLibrary(unittest.TestCase):
         pl.add_songs([s1, s2, s3, s4])
         self.assertEqual(pl.total_length(), '00:14:58')
 
+    def test_playlist_next_song(self):
+        pl = Playlist('test')
+        s1 = Song(title="Odin", artist="Manowar", album="The Sons of Odin", length="3:44")
+        s2 = Song(title="Ich Will", artist="Rammstein", album="Mutter", length="4:05")
+        s3 = Song(title="Ich Tu Dir Weh", artist="Rammstein", album="Liebe ist für alle da", length="3:58")
+        pl.add_songs([s1, s2, s3])
+        self.assertEqual(pl.next_song(), s2)
+
 
 if __name__ =='__main__':
     unittest.main()
