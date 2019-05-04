@@ -31,7 +31,7 @@ class Sensor(Subject):
     @temp.setter
     def temp(self, temp):
         self._temp = temp
-        # self.notify(self)
+        self.notify()
 
 
 class TempViewer:
