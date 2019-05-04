@@ -1,6 +1,7 @@
 Programming 101 with python 2019
 ================================
 Repo for the course of Hack Bulgaria "Programming 101 with with Python".
+https://github.com/HackBulgaria/Programming-101-Python-2019
 
 Agenda
 ------
