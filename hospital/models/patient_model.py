@@ -1,7 +1,9 @@
 from user_model import User
+from utils.database import Database
+#in controller validate data and create instance of patient
 class Patient(User):
-    def __init__(self, id, username, pass_hash, full_name, age):
-        super().__init__(id, username, pass_hash, 'patient')
+    def __init__(self, uid, username, hashed_password, full_name, age):
+        super().__init__(uid, username, hashed_password, 'patient')
         self._age = age
         self._full_name = full_name
     
@@ -21,13 +23,13 @@ class Patient(User):
     def full_name(self, value):
         self._full_name = value
 
-    def add_patient(self):
-        pass
+    @classmethod
+    def add_patient(cls, uid, username, hashed_password, full_name, age):
+        super().create_user(uid, username, hashed_password, 'patient')
 
-    def see_patient_by_name(self, name):
-        pass
+        #todo: check kwargs
+        cls.db.create_new_patient( uid, full_name, age )
+        return cls(uid, username, hashed_password, full_name, age)
 
-    def see_patient_by_uid(self, uid):
-        pass
 
     

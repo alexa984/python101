@@ -1,0 +1,5 @@
+exit 1 - sql create user error
+exit 2 - sql create doctor error
+exit 3 - sql create patient error
+exit 4 - sql get all patients error
+

@@ -1,15 +1,4 @@
-USE master
-GO
-if exists (select * from sysdatabases where name = 'hospital')
-	DROP DATABASE hospital
-GO
-
-CREATE DATABASE hospital
-GO
-USE hospital
-GO
-
-CREATE TABLE User(
+CREATE TABLE IF NOT EXISTS User(
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     username varchar(32) NOT NULL,
     hashed_password varchar(32) NOT NULL,
@@ -17,7 +6,7 @@ CREATE TABLE User(
     UNIQUE(id, username)
 );
 
-CREATE TABLE Patient(
+CREATE TABLE IF NOT EXISTS Patient(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL, 
     full_name VARCHAR(32) NOT NULL,
@@ -25,7 +14,7 @@ CREATE TABLE Patient(
     FOREIGN KEY(user_id) REFERENCES User(id)
 );
 
-CREATE TABLE Doctor(
+CREATE TABLE IF NOT EXISTS Doctor(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     full_name VARCHAR(32) NOT NULL,
@@ -34,7 +23,7 @@ CREATE TABLE Doctor(
     FOREIGN KEY(user_id) REFERENCES User(id)
 );
 
-CREATE TABLE Slots(
+CREATE TABLE IF NOT EXISTS Slots(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     doctor_id INTEGER NOT NULL,
     start_hour VARCHAR(5) CHECK (start_hour LIKE '__:__'),
@@ -44,7 +33,7 @@ CREATE TABLE Slots(
     FOREIGN KEY(doctor_id) REFERENCES Doctor(id)
 );
 
-CREATE TABLE Reservations(
+CREATE TABLE IF NOT EXISTS Reservations(
     patient_id INTEGER NOT NULL,
     slot_id INTEGER NOT NULL,
     done_status varchar(8) check (done_status in ('ready', 'pending', 'canceled')),
