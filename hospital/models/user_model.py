@@ -10,19 +10,18 @@ class User:
 
     def get_user_type(self):
         return self._user_type
+
+    @classmethod
+    def login(cls, username, hashed_password):
+        if cls.db.get_user_type_based_on_username(username) == 'patient':
+            #call the login for patient
+            pass
+        elif cls.db.get_user_type_based_on_username(username) == 'doctor':
+            #call the login for patient
+            pass
     
     @classmethod
     def create_user(cls, id, username, hashed_password, user_type):
         cls.db.create_new_user(id, username, hashed_password, user_type)
         return cls(id, username, hashed_password, user_type)
-
-
-    #this goes to controller
-    # @staticmethod
-    # def hash(inpt):
-    #     m = sha256()
-    #     m.update(inpt.encode('utf-8'))
-    #     return m.hexdigest()
-
-    
 

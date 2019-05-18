@@ -32,6 +32,10 @@ class Doctor(User):
         #eventualy do smth with result
         return result
 
+    @classmethod
+    def login(cls, username, hashed_password):
+        result = cls.db.
+
     def show_examinations_for_day(self):
         pass  
 
