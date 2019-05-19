@@ -1,12 +1,12 @@
 from login_view import LoginView
 from register_view import RegisterView
 class MainMenuView:
-    MAIN_MENU={
-        1: 'login',
-        2: 'register'
-    }
-    @classmethod
-    def show_options(cls):
+    @staticmethod
+    def show_options():
+        MAIN_MENU={
+        1: LoginView.show_login,
+        2: RegisterView.show_register
+        }
         #print menu
         print("""
         1 - Login
@@ -18,8 +18,8 @@ class MainMenuView:
             selected = int(input('Select option: '))
             if selected < 1 or selected > 2:
                 raise ValueError
-            
-            #call the needed view
+            action = MAIN_MENU.get(selected, lambda: "Invalid option")
+            action()
         except ValueError:
             print('Invalid option!')
         

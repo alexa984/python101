@@ -2,8 +2,8 @@ from sys import path, exit
 path.append('../')
 from controllers.controller import MainController
 class LoginView:
-    @classmethod
-    def show_login(cls):
+    @staticmethod
+    def show_login():
         #get user input
         try:
             user_name = input('Enter username: ')
