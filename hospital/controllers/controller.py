@@ -1,20 +1,25 @@
 from hashlib import sha256
-from models import user_model
+import sys
+sys.path.append('../')
 from utils.database import Database
 from models.user_model import User
 from models.doctor_model import Doctor
 from models.patient_model import Patient
-class MainController:
-    db - Database()
 
+class MainController:
+    db = Database()
+    curr_user = None
     @classmethod
     def login(cls, username, password):
         password = hash(password)
         if cls.db.check_username_password_match(username, password):
-            curr_user = user_model.User.login(username, password)
+            cls.curr_user = User.login(username, password)
+            return 1
         else:
             print('Invalid username or password')
-
+            return -1
+        
+            
     @classmethod
     def register(cls, **kwargs):
         if cls.db.check_does_user_exist(kwargs['username']):
@@ -23,12 +28,12 @@ class MainController:
             if kwargs['user_type'] == 'doctor':
                 #create doctor
                 hashed_password = hash(kwargs['password'])
-                curr_user = Doctor.create_doctor(kwargs['uid'], kwargs['username'], hashed_password, kwargs['full_name'], kwargs['specialty'], kwargs['phone_number'])
+                cls.curr_user = Doctor.create_doctor(kwargs['uid'], kwargs['username'], hashed_password, kwargs['full_name'], kwargs['specialty'], kwargs['phone_number'])
                 
             elif kwargs['user_type'] == 'patient':
                 #create patient
                 hashed_password = hash(kwargs['password'])
-                curr_user = Patient.add_patient(kwargs['uid'], kwargs['username'], hashed_password, kwargs['phone_number'], kwargs['age'])
+                cls.curr_user = Patient.add_patient(kwargs['uid'], kwargs['username'], hashed_password, kwargs['phone_number'], kwargs['age'])
             else:
                 print('Invalid user type')
 

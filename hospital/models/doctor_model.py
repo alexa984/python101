@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 from user_model import User
 from utils.database import Database
 
@@ -27,14 +29,16 @@ class Doctor(User):
 
     @classmethod
     def show_patients(cls, uid):
+        pass
         #if this uid represents doctor then
-        result = cls.db.show_all_patients()
+        # result = cls.db.show_all_patients(uid)
         #eventualy do smth with result
-        return result
+        # return result
 
     @classmethod
     def login(cls, username, hashed_password):
-        result = cls.db.
+        # result = cls.db.
+        pass
 
     def show_examinations_for_day(self):
         pass  

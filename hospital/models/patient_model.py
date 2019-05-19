@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 from user_model import User
 from utils.database import Database
 #in controller validate data and create instance of patient
@@ -23,6 +25,10 @@ class Patient(User):
     def full_name(self, value):
         self._full_name = value
 
+    def update_patient(self, **kwargs):
+        for kwel, kwval in kwargs.items():
+            self.__dict__[kwel] = kwval
+
     @classmethod
     def add_patient(cls, uid, username, hashed_password, full_name, age):
         super().create_user(uid, username, hashed_password, 'patient')
@@ -30,6 +36,9 @@ class Patient(User):
         #todo: check kwargs
         cls.db.create_new_patient( uid, full_name, age )
         return cls(uid, username, hashed_password, full_name, age)
+
+    
+
 
 
     

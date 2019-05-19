@@ -1,8 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 from time import sleep
-from sys import exit
-from models.user_model import User
+
 class Database:
     def __init__(self):
         self.db_path = "/home/alexandra/Documents/python101/hospital/utils/hospital.db"
@@ -101,28 +100,6 @@ class Database:
             connection.close()
             return user_type
 
-
-    def find_user(self, username, hashed_password):
-        connection = sqlite3.connect(self.db_path)
-        cursor = connection.cursor()
-        try:
-            cursor.execute(
-                """
-                SELECT *
-                FROM User
-                WHERE username = ? and hashed_password = ?
-                """, (username, hashed_password)
-            )
-            f_id, f_uname, f_passwd, f_utype = cursor.fetchone()
-            connection.commit()
-        except sqlite3.Error:
-            print("Invalid login")
-            sleep(3)
-            exit(6)
-        finally:
-            connection.close()
-            return User(f_id, f_uname, f_passwd, f_utype)
-
     def check_does_user_exist(self, username):
         connection = sqlite3.connect(self.db_path)
         cursor = connection.cursor()
@@ -165,3 +142,6 @@ class Database:
         finally:
             connection.close()
             return False
+
+    def show_all_patients(self, doctor_uid):
+        pass

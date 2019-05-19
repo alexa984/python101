@@ -1,6 +1,9 @@
-# from hashlib import sha256
+import sys
+sys.path.append('../')
 from utils.database import Database
+
 class User:
+    #eventually make user singleton
     db = Database()
     def __init__(self, id, username, hashed_password, user_type):
         self._id = id
