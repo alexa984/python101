@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS User(
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    id INTEGER PRIMARY KEY NOT NULL,
     username varchar(32) NOT NULL,
     hashed_password varchar(32) NOT NULL,
     user_type varchar(8) check (user_type in ('doctor', 'patient')),

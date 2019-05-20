@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../')
-from user_model import User
+from models.user_model import User
 from utils.database import Database
 #in controller validate data and create instance of patient
 class Patient(User):
@@ -35,7 +35,7 @@ class Patient(User):
 
         #todo: check kwargs
         cls.db.create_new_patient( uid, full_name, age )
-        return cls(uid, username, hashed_password, full_name, age)
+        return Patient(uid, username, hashed_password, full_name, age)
 
     
 
