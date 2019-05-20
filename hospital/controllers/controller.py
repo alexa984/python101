@@ -1,6 +1,7 @@
-from hashlib import sha256
+import binascii
 import sys
 sys.path.append('../')
+from hashlib import sha256
 from utils.database import Database
 from models.user_model import User
 from models.doctor_model import Doctor
@@ -33,15 +34,22 @@ class MainController:
             elif kwargs['user_type'] == 'patient':
                 #create patient
                 hashed_password = hash(kwargs['password'])
-                cls.curr_user = Patient.add_patient(kwargs['uid'], kwargs['username'], hashed_password, kwargs['phone_number'], kwargs['age'])
+                cls.curr_user = Patient.add_patient(kwargs['uid'], kwargs['username'], hashed_password, kwargs['full_name'], kwargs['age'])
             else:
                 print('Invalid user type')
 
 
 
+    # @staticmethodfrom hashlib import sha256
+    # def hash(inpt):from hashlib import sha256
+    #     m = sha256()
+    #     m.update(inpt.encode('utf-8'))
+    #     return str(m.hexdigest())
     @staticmethod
-    def hash(inpt):
-        m = sha256()
-        m.update(inpt.encode('utf-8'))
-        return m.hexdigest()
+    def hash(string):
+        bina = binascii.unhexlify(string)
+        hash = sha256(sha256(bina).digest()).digest()
+        raw = str(binascii.hexlify(hash))[2:-1]
+        return raw
 
+# print (SHA256d("94"))

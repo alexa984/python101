@@ -10,14 +10,14 @@ class Database:
         connection = sqlite3.connect(self.db_path)
         cursor = connection.cursor()
         try:
-            user_info = ( uid, username, hashed_password, user_type )
-            cursor.executemany("""
+            user_info = ( uid, username, hashed_password, user_type, )
+            cursor.execute("""
             INSERT INTO User(id, username, hashed_password, user_type)
             VALUES(?, ?, ?, ?);
             """, user_info)
             connection.commit()
-        except Exception:
-            print('Some error occured while creating your profile. We are sorry. Try again.')
+        except sqlite3.Error as e:
+            print('Some error occured while creating your profile. We are sorry. Try again.', e)
             sleep(3)
             exit(1)
         finally:
@@ -27,14 +27,14 @@ class Database:
         connection = sqlite3.connect(self.db_path)
         cursor = connection.cursor()
         try:
-            doctor_info = ( uid, full_name, specialty, phone_number )
-            cursor.executemany("""
+            doctor_info = ( uid, full_name, specialty, phone_number, )
+            cursor.execute("""
             INSERT INTO Doctor(user_id, full_name, specialty, phone)
             VALUES(?, ?, ?, ?);
             """, doctor_info)
             connection.commit()
         except sqlite3.Error:
-            print('Some error occured while creating your profile. We are sorry. Try again.')
+            print('Some error occured while creating your doctor profile. We are sorry. Try again.')
             sleep(3)
             exit(2)
         finally:
@@ -45,14 +45,14 @@ class Database:
         connection = sqlite3.connect(self.db_path)
         cursor = connection.cursor()
         try:
-            patient_info = ( user_id, full_name, age )
-            cursor.executemany("""
-            INSERT INTO Doctor(user_id, full_name, age)
+            patient_info = ( user_id, full_name, age, )
+            cursor.execute("""
+            INSERT INTO Patient(user_id, full_name, age)
             VALUES(?, ?, ?);
             """, patient_info)
             connection.commit()
-        except sqlite3.Error:
-            print('Some error occured while creating your profile. We are sorry. Try again.')
+        except sqlite3.Error as e:
+            print('Some error occured while creating your patient profile. We are sorry. Try again.', e)
             sleep(3)
             exit(3)
         finally:
@@ -87,8 +87,8 @@ class Database:
                 """
                 SELECT user_type
                 FROM User
-                WHERE username = ?
-                """, username
+                WHERE username = (?)
+                """, (username, )
             )
             user_type = cursor.fetchone()
             connection.commit()
@@ -108,8 +108,8 @@ class Database:
                 """
                 SELECT username
                 FROM User
-                WHERE username = ?
-                """, username
+                WHERE username = (?)
+                """, (username, )
             )
             this_username = cursor.fetchone()
             connection.commit()
@@ -129,8 +129,8 @@ class Database:
                 """
                 SELECT hashed_password
                 FROM User
-                WHERE username = ?
-                """, username
+                WHERE username = (?)
+                """, (username, )
             )
             this_user_password = cursor.fetchone()
             connection.commit()
@@ -145,3 +145,5 @@ class Database:
 
     def show_all_patients(self, doctor_uid):
         pass
+
+

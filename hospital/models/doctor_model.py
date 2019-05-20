@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../')
-from user_model import User
+from models.user_model import User
 from utils.database import Database
 
 class Doctor(User):
@@ -57,4 +57,4 @@ class Doctor(User):
 
         #todo: check kwargs
         cls.db.create_new_doctor( uid, full_name, specialty, phone_number )
-        return cls(uid, username, hashed_password, full_name, specialty, phone_number)
+        return Doctor(uid, username, hashed_password, full_name, specialty, phone_number)
