@@ -5,7 +5,8 @@ from time import sleep
 class Database:
     def __init__(self):
         self.db_path = "/home/alexandra/Documents/python101/hospital/utils/hospital.db"
-
+        #todo: connection to be made once and make it singleton
+    
     def create_new_user(self, uid, username, hashed_password, user_type):
         connection = sqlite3.connect(self.db_path)
         cursor = connection.cursor()
@@ -19,6 +20,7 @@ class Database:
         except sqlite3.Error as e:
             print('Some error occured while creating your profile. We are sorry. Try again.', e)
             sleep(3)
+            connection.rollback()
             exit(1)
         finally:
             connection.close()
@@ -78,6 +80,23 @@ class Database:
             connection.close()
             return patients
 
+    def get_all_doctors(self):
+        connection = sqlite3.connect(self.db_path)
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                """
+                    SELECT * 
+                    FROM Doctor
+                """
+            )
+            doctors = cursor.fetchall()
+            connection.commit()
+            return doctors
+        except sqlite3.Error:
+            print("can't get info about doctors")
+            return -1
+
 
     def get_user_type_based_on_username(self, username):
         connection = sqlite3.connect(self.db_path)
@@ -123,7 +142,7 @@ class Database:
     
     def check_username_password_match(self, username, hashed_pass):
         connection = sqlite3.connect(self.db_path)
-        cursor = sqlite3.Cursor()
+        cursor = connection.cursor()
         try:
             cursor.execute(
                 """
@@ -134,16 +153,58 @@ class Database:
             )
             this_user_password = cursor.fetchone()
             connection.commit()
-            if this_user_password==hashed_pass:
+            if this_user_password[0]==hashed_pass:
                 return True
+            else:
+                return False
+        except TypeError:
+            print("This user doesn't exist")
+        except Exception as e:
+            print('Invalid login', e)
+            sleep(3)
+        finally:
+            connection.close()
+
+
+    def show_all_patients(self, doctor_uid):
+        pass
+
+    def return_login_info_patient(self, username):
+        connection = sqlite3.connect(self.db_path)
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                """
+                SELECT user_id, full_name, age
+                FROM Patient JOIN User ON Patient.user_id=User.id
+                WHERE username = (?)
+                """, (username, )
+            )
+            this_user_id, this_user_name, this_user_age = cursor.fetchmany()
+            connection.commit()
+            return this_user_id, this_user_name, this_user_age
         except Exception:
             print('Invalid login')
             sleep(3)
         finally:
             connection.close()
-            return False
 
-    def show_all_patients(self, doctor_uid):
-        pass
-
-
+    def return_login_info_doctor(self, username):
+        connection = sqlite3.connect(self.db_path)
+        cursor = connection.cursor()
+        try:
+            cursor.execute(
+                """
+                SELECT user_id, full_name, specialty, phone
+                FROM Doctor
+                WHERE username = (?)
+                """, (username, )
+            )
+            this_user_id, this_user_name, this_user_specialty, this_user_phone = cursor.fetchmany()
+            connection.commit()
+            return this_user_id, this_user_name, this_user_specialty, this_user_phone
+        except Exception:
+            print('Invalid login')
+            sleep(3)
+        finally:
+            connection.close()

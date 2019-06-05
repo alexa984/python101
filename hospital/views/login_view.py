@@ -2,14 +2,15 @@ from sys import path, exit
 from getpass import getpass
 path.append('../')
 from controllers.controller import MainController
+import traceback
 
 class LoginView:
     @classmethod
     def show_login(cls):
         #get user input
         try:
-            user_name = input('Enter username: ')
-            password = getpass(prompt='Enter password: ')
+            user_name = input('Username: ')
+            password = getpass()
             remaining_try = 3
             status = MainController.login(user_name, password)
             #if username and password doesn't match
@@ -20,6 +21,8 @@ class LoginView:
                 else:
                     exit()
 
-        except Exception:
-            print('Login unsuccessful')
+        except Exception as e:
+            print('Login unsuccessful', e)
+            tb = traceback.format_exc()
+            print(e, tb)
         

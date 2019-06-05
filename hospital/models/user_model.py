@@ -10,18 +10,9 @@ class User:
 
     def get_user_type(self):
         return self._user_type
-
-    @classmethod
-    def login(cls, username, hashed_password):
-        if cls.db.get_user_type_based_on_username(username) == 'patient':
-            #call the login for patient
-            pass
-        elif cls.db.get_user_type_based_on_username(username) == 'doctor':
-            #call the login for patient
-            pass
     
     @classmethod
     def create_user(cls, uid, username, hashed_password, user_type):
         cls.db.create_new_user(uid, username, hashed_password, user_type)
-        # return User(uid, username, hashed_password, user_type)
+
 

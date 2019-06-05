@@ -2,4 +2,6 @@ exit 1 - sql create user error
 exit 2 - sql create doctor error
 exit 3 - sql create patient error
 exit 4 - sql get all patients error
-
+exit 5 - sql get type of user error
+exit 6 - sql find user error
+exit

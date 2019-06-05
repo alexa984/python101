@@ -26,7 +26,7 @@ class RegisterView:
         if cls.register_type == 'patient':
             try:
                 username = input('Username: ')
-                password = getpass(prompt='Password: ')
+                password = str(getpass())
                 #use national identification number as uid
                 nin = int(input('NIN: '))
                 full_name = input('Full name: ')

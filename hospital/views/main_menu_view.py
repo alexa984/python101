@@ -1,4 +1,4 @@
-import traceback
+
 from login_view import LoginView
 from register_view import RegisterView
 class MainMenuView:
@@ -21,10 +21,8 @@ class MainMenuView:
                 raise ValueError
             action = MAIN_MENU.get(selected, lambda: "Invalid option")
             action()
-        except ValueError as e:
-            tb = traceback.format_exc()
+        except ValueError:
             print('Invalid option!')
-            print(e, tb)
         
 
 if __name__ == '__main__':

@@ -49,7 +49,10 @@ class Doctor(User):
     def search_user_by_id(self, uid):
         pass
 
-
+    @classmethod
+    def login(cls, username, hashed_password):
+        this_user_id, this_user_name, this_user_specialty, this_user_phone = cls.db.return_login_info_doctor(username)
+        return Doctor(this_user_id, username, hashed_password, this_user_name, this_user_specialty, this_user_phone)
 
     @classmethod
     def create_doctor(cls, uid, username, hashed_password, full_name, specialty, phone_number):

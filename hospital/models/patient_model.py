@@ -37,6 +37,11 @@ class Patient(User):
         cls.db.create_new_patient( uid, full_name, age )
         return Patient(uid, username, hashed_password, full_name, age)
 
+    @classmethod
+    def login(cls, username, hashed_password):
+        this_user_id, this_user_name, this_user_age = cls.db.return_login_info_patient(username)
+        return Patient(this_user_id, username, hashed_password, this_user_name, this_user_age)
+
     
 
 
